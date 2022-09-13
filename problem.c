@@ -81,8 +81,8 @@ void make_orbit(){
 }
 
 void generate_sims(struct reb_simulation* r){
-    // 0 mass particle - should have no energy transfer
     for (float M = 0; M < 2 * M_PI; M += M_PI/6){
+    	// 0 mass particle - should have no energy transfer
         struct reb_particle m2 = reb_tools_orbit_to_particle(r->G, r->particles[0], 0, a_over_rh * r_hill, ecc, inc * M_PI / 180, 0.0, 0.0, reb_tools_M_to_f(M));
         m2.hash = reb_hash("m2");
         printf("\nm2 = %d", m2.hash);
@@ -122,7 +122,7 @@ void heartbeat(struct reb_simulation* r){
     // exiting when each orbit is disrupted (more than 3* the start energy or energy has somehow gone negative)
     if(d_out/2 < d_in && !stopped){          
         stopped = true;
-	print_time(r);
+		print_time(r);
     }
 }
 

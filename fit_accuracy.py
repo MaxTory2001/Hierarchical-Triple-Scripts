@@ -1,6 +1,7 @@
 """
 Max Tory
-Stability of a map of orbits against a_in and inc according to different criteria
+Stability of a random selection of orbits against a_in and inc according to
+different criteria. For evaluating fits to the stability boundary
 """
 
 import rebound
@@ -19,7 +20,7 @@ class System:
         if len(sys.argv) == 1:
             self.seed = 1
             random.seed(1)
-        else: 
+        else:
             self.seed = int(sys.argv[1])
             random.seed(int(sys.argv[1]))
 
@@ -59,42 +60,42 @@ class System:
         """Setting up all the orbits at different inclinations and a_ins"""
         for i in range(4000):
             # vynatheya test
-            
+
             self.sim = rebound.Simulation()
             self.sim.G = 1.0;
             self.sim.dt = 1e-10
-            #self.sim.heartbeat = self.heartbeat
+            self.sim.heartbeat = self.heartbeat
 
             self.inc = math.acos(random.random() * 2 - 1)
             self.e_in, self.e_out = random.random(), random.random()
             self.M1, self.M2 = 2 * math.pi * random.random(), 2 * math.pi * random.random()
             self.Omega, self.omega = 2 * math.pi * random.random(), 2 * math.pi * random.random()
-            
+
             self.q = 10 ** (-6 * random.random())
             self.q_in = 10 ** (-2 * random.random())
-            
+
             self.r_h = (self.q / 3) ** (1./3.)
             self.a_over_rp = (random.random() + 0.5) * self.predict_stable_a_over_rp()
             self.a_out = (1 + self.q) ** (1./3.)
-            
-            print(f'q = {self.q}, inc={self.inc}, a={self.a_over_rp/self.predict_stable_a_over_rp()}, e_in={self.e_in}, e_out={self.e_out}')            
+
+            print(f'q = {self.q}, inc={self.inc}, a={self.a_over_rp/self.predict_stable_a_over_rp()}, e_in={self.e_in}, e_out={self.e_out}')
 
             self.make_orbit()
             with open(f"fit_accuracy/stability_predictions_seed_{self.seed}.txt", "a") as f:
                 f.write(f"{math.log10(self.q):.3f}\t{math.log10(self.q_in):.3f}\t{(self.inc * 180 / math.pi):.5f}\t{self.e_in:.5f}\t{self.e_out:.5f}\t{self.a_over_rp:.5e}\t{(self.sim._status + 1) % 2}\n")
             self.sim = None
-            
+
 
     def heartbeat(self, sim_pointer=None):
 
         p1, p2 = self.sim.particles[:2]
         d_in = p1 ** p2
-        
+
         if (d_in > self.a_out * (1-self.e_out) / 2):
             self.sim._status = 1
             print("unstable")
 
-    def hamers_criterion(self, sim):
+    def vynatheya_hamers_criterion(self, sim):
         orbits = sim.calculate_orbits()
         final_a_in, final_a_out = orbits[0].a, orbits[1].a
 
@@ -105,7 +106,7 @@ class System:
         if abs((a_in - final_a_in)/a_in) > 0.1: stable = False
         elif abs((a_out - final_a_out)/a_out) > 0.1: stable = False
         return stable
-            
+
 
 def main():
     system = System()
@@ -114,4 +115,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    

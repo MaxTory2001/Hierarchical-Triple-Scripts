@@ -59,7 +59,7 @@ class System:
                         pass
                     if self.sim.status != 1:
                         stable += 1
-                        if self.hamers_criterion(self.sim):
+                        if self.vynatheya_hamers_criterion(self.sim):
                             hamers_stable += 1
 
                     self.sim = None
@@ -80,12 +80,11 @@ class System:
     def heartbeat(self, sim_pointer):
         p1, p2 = self.sim.particles[:2]
         d_in = p1 ** p2
-        
         if (d_in > self.a_out / 2):
             self.sim.status = 1
 
 
-    def hamers_criterion(self, sim):
+    def vynatheya_hamers_criterion(self, sim):
         orbits = sim.calculate_orbits()
         final_a_in, final_a_out = orbits[0].a, orbits[1].a
 
@@ -96,7 +95,7 @@ class System:
         if abs((a_in - final_a_in)/a_in) > 0.1: stable = False
         elif abs((a_out - final_a_out)/a_out) > 0.1: stable = False
         return stable
-            
+
 
 def main():
     system = System()

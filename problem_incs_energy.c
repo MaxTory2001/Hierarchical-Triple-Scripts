@@ -4,7 +4,10 @@
  * Here I use the IAS15 integrator to check stability of orbits
  * in heirarchical triples for different inclinations and semi-major axes,
  * then extend this to less hierarchical regimes to determine the breakdown
- * point of the hill stability criterion
+ * point of the hill stability criterion. Unlike the script in problem_incs.c,
+ * The inner semi-major axis was determined according to the Effective Potential
+ * Energy of the inner particle in a corotating reference frame with the outer
+ * binary, in order to isolate the impact of initial particle energy on stability.
  */
 #include <stdio.h>
 #include <stdlib.h>

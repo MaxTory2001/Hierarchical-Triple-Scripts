@@ -1,6 +1,9 @@
 """
 Max Tory
-Evolution of one orbit which is stable by the Tory-Grishin-Mandel criterion and unstable by the Vynatheya-Hamers criterion. Orbital elements are tracked to follow the evolution of this orbit and when it becomes unstable by each criterion
+Evolution of one orbit which is stable by the Tory-Grishin-Mandel criterion
+and unstable by the Vynatheya-Hamers criterion. Orbital elements are tracked
+to follow the evolution of this orbit and when it becomes unstable by each
+criterion
 """
 
 import rebound
@@ -60,7 +63,7 @@ class System:
             self.previous_output = self.sim.t
             with open(f"track_orbit_f_{self.theta:,.2f}.txt", "a") as f:
                 f.writelines([f"{self.sim.t:.2f}\t{o.a:.4f}\t{o.e:.4f}\t{o.inc:.2f}\t{o.f:.4f}\n" for o in orbits])
-            
+
 
 def main():
     system = System()
@@ -69,4 +72,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
+

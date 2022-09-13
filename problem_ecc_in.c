@@ -2,8 +2,8 @@
  * Hill Stability Breakdown
  * 
  * Here I use the IAS15 integrator to check stability of orbits
- * in heirarchical triples for different inclinations and semi-major axes,
- * then extend this to less hierarchical regimes to determine the breakdown
+ * in heirarchical triples for different inner eccentricities and semi-major
+ * axes, then extend this to less hierarchical regimes to determine the breakdown
  * point of the hill stability criterion
  */
 #include <stdio.h>
